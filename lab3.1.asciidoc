@@ -1,0 +1,342 @@
+== Лабораторная работа 3.1
+
+== Счастливый билетик
+
+image:http://f2.mylove.ru/UNiHT7dRJ4.jpg[image]
+
+Билет считается счастливым, если выполнено следующее условие: сумма
+первых трёх цифр номера равна сумме последних трёх цифр.
+
+*Задание:*
+
+[arabic]
+. Определите число `ticket_number` — шестизначный номер билета;
+. Напишите код, который по шестизначному номеру `ticket_number` билетика
+проверяет, является ли он счастливым;
+. Если номер счастливый, выведите строку `Yes`, иначе — `No`.
+
+'''''
+
+*Пример 1:*
+
+_Input:_ 123456
+
+_Output:_ No
+
+*Пример 2:*
+
+_Input:_ 123042
+
+_Output:_ Yes
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+ticket_number = # any 6-digit number
+----
+
+
++*In[5]:*+
+[source, ipython3]
+----
+def ticket_number(ticket):
+    ticket = str(ticket)
+    IS = int(ticket[0]) + int(ticket[1]) + int(ticket[2]) == int(ticket[3]) + int(ticket[4]) + int(ticket[5])
+    if IS:
+        print("Yes")
+    else:
+        print("No")
+        
+ticket_number(123456)
+----
+
+
++*Out[5]:*+
+----
+No
+----
+
+== Пароль
+
+image:http://forum.ixbt.com/post.cgi?id=attach:77:14138:1341:1[image]
+
+Пусть пароль может содержать только латинские буквы, знаки препинания и
+цифры.
+
+Пароль считается надёжным, если удовлетворяет следующим условиям: -
+содержит буквы в разных регистрах; - содержит цифры; - содержит не менее
+`4` уникальных символов; - не содержит ваше имя латинницей, записанное
+буквами любых регистров (anna, iVan, …).
+
+Иначе пароль считается слабым.
+
+*Задание:*
+
+[arabic]
+. Определите строку `password` — придуманный вами пароль;
+. Напишите код, который по паролю `password` проверяет, является ли он
+надёжным;
+. Если пароль надёжный, выведите строку `strong`, иначе — `weak`.
+
+'''''
+
+Пусть имя пользоватея – Андрей.
+
+*Пример 1:*
+
+_Input:_ Aandrei123
+
+_Output:_ weak
+
+*Пример 2:*
+
+_Input:_ an12dRei
+
+_Output:_ strong
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+password = # any password
+----
+
+
++*In[6]:*+
+[source, ipython3]
+----
+import string
+
+def is_password(pswd) -> bool:
+    if len(pswd) < 4:
+        return False
+    
+    lm, tm, zm, sm = 0, -1, 0, 0
+    
+    for pswd_ch in pswd: 
+        if not(lm <= 2):
+            return False
+        
+        if pswd_ch in string.ascii_lowercase:
+            zm = 0
+            
+        elif pswd_ch in string.ascii_uppercase:
+            zm = 1
+        
+        elif pswd_ch in (string.digits +  string.punctuation + " "):
+            zm = 2
+        else:
+            print("Error: Only Latin letters, punctuation marks and numbers translation:\"" +  pswd_ch + "\"")
+            return False
+        
+        if not(tm == zm):
+            tm = zm
+            lm = 0
+        
+        lm += 1
+        
+        if not ((sm & ~(2**zm)) == (2**zm)):
+            sm = sm | (2**zm)
+            
+    if sm == 7:
+        return True
+    return False
+    
+if is_password("an12dRei"):
+    print("strong")
+else:
+    print("weak")
+----
+
+
++*Out[6]:*+
+----
+strong
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+== Числа Фибоначчи
+
+Как известно,
+https://ru.wikipedia.org/wiki/%D0%A7%D0%B8%D1%81%D0%BB%D0%B0_%D0%A4%D0%B8%D0%B1%D0%BE%D0%BD%D0%B0%D1%87%D1%87%D0%B8[числа
+Фибоначчи] — это последовательность чисел, каждое из которых равно сумме
+двух предыдущих (первые два числа равны latexmath:[$1$]): latexmath:[\[
+    1, 1, 2, 3, 5, 8, 13, \ldots
+\]]
+
+*Задание:*
+
+[arabic]
+. Определите число `amount` — количество чисел Фибоначчи, которые надо
+вывести;
+. Напишите код, который выводит первые `amount` чисел Фибоначчи.
+
+'''''
+
+*Пример 1:*
+
+_Input:_ 3
+
+_Output:_ 1 1 2
+
+*Пример 2:*
+
+_Input:_ 10
+
+_Output:_ 1 1 2 3 5 8 13 21 34 55
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+amount = # any number
+----
+
+
++*In[4]:*+
+[source, ipython3]
+----
+def fab(n):
+    n = int(n)
+    fab1 = fab2 = 1
+    if(n > 0):
+        print(fab1, end=" ")
+    
+    if(n > 1):
+        print(fab2, end=" ")
+        
+    for i in range(2, n):
+        fab1, fab2 = fab2, fab1 + fab2
+        print(fab2, end=" ")
+        
+fab(3)
+----
+
+
++*Out[4]:*+
+----
+1 1 2 ----
+
+== Время исследований
+
+image:https://2.bp.blogspot.com/-VOT5x12UqPY/WSh53tQ94HI/AAAAAAAAAMY/-nlcz28_Fj4UzJjbn4bBINKCnzwag1W4QCLcB/s1600/my-pic-widget.jpg[image]
+
+На сайте https://www.kaggle.com/ выберите любой набор данных в формате
+CSV и проведите для него маленькое исследование: загрузите данные из
+набора с использованием стандартного модуля `csv`, посмотрите средние
+значения и стандартные отклонения двух выбранных числовых атрибутов,
+найдите
+https://ru.wikipedia.org/wiki/%D0%9C%D0%B5%D1%82%D0%BE%D0%B4_%D0%BD%D0%B0%D0%B8%D0%BC%D0%B5%D0%BD%D1%8C%D1%88%D0%B8%D1%85_%D0%BA%D0%B2%D0%B0%D0%B4%D1%80%D0%B0%D1%82%D0%BE%D0%B2[методом
+наименьших квадратов] уравнение линейной зависимости, связывающей один
+числовой атрибут с другим. Для оценки заданной зависимости найдите
+https://ru.wikipedia.org/wiki/%D0%9A%D0%BE%D1%80%D1%80%D0%B5%D0%BB%D1%8F%D1%86%D0%B8%D1%8F[коэффициент
+парной корреляции], сделайте соответствующие выводы.
+
+*Результаты надо обязательно прокомментировать и пояснить!*
+
+'''''
+
+*Пример 1:*
+
+Пусть таблица `bikes.csv` содержит данные по арендам велосипедов за
+latexmath:[$2$] года: - `datetime`: дата и время аренды - `season`:
+время года - `temp`: температура воздуха по Цельсию - `windspeed`:
+скорость ветра - `registered`: число аренд
+
+Одно из направлений исследования могло бы заключаться в проверке
+зависимости суммарного числа аренд от температуры воздуха.
+
+_в такой ячейке (режим Markdown) можно писать текст_
+
+Здесь должны быть кратко описаны результаты исследования и обнаруженых
+фактов.
+
+…
+
+…
+
+'''''
+
+Пусть таблица `history_weather_munich.csv` содержит данные по
+температура за все года: - Termin - *дата* - Max. Temp. - *Максимальная
+температура* - Min. Temp. - *Минимальная Температура*
+
+Одно из направлений исследования могло бы заключаться в проверке
+зависимости суммарного числа температуры.
+
+
++*In[43]:*+
+[source, ipython3]
+----
+import os.path
+import math
+import csv
+
+def mean(list_numb : list):
+    return sum(list_numb) / len(list_numb)
+
+def variance(list_numb : list): 
+    return sum([(x - mean(list_numb)) ** 2 for x in list_numb]) / (len(list_numb) - 1)
+
+def stdev(list_numb : list):
+    return math.sqrt(variance(list_numb))
+
+def mnk(a : list, b : list):
+    if len(a) != len(b):
+        print("Error: a != b;")
+        return
+        
+    ab = [ x * b[k]  for k, x in enumerate(a)]
+    a2 = [ x ** 2  for x in a] 
+    am = sum(a) / len(a)
+    bm = sum(b) / len(a) 
+    br = (len(a) * sum(ab) - sum(a) * sum(b)) / (len(a) * sum(a2) - (sum(a) ** 2))
+    ar = bm - br * am    
+    return ar
+
+def corrcoef(a : list, b : list):
+    if len(a) != len(b):
+        print("Error: a != b;")
+        return
+    
+    an = [ x - (sum(a)/len(a)) for x in a ]
+    bn = [ x - (sum(b)/len(a)) for x in b ]
+    abp = sum([ x ** 2 for x in an ]) * sum([ x ** 2 for x in bn ])
+    abq = math.sqrt(abp)
+
+    return sum([ x * bn[k]  for k, x in enumerate(an)]) / abq
+
+array_temp = { "date": [], "min": [], "max":[] }
+
+with open('./history_weather_munich.csv', newline='') as csvfile:
+        spamreader = csv.DictReader(csvfile, delimiter=";")
+        for row in spamreader:
+            array_temp["date"].append(row["Termin"])
+            array_temp["min"].append(float(row["Min. Temp."].replace(",", ".")))
+            array_temp["max"].append(float(row["Max. Temp."].replace(",", ".")))
+
+print("Мин. темп.: ", "min:{", min(array_temp["min"]), "};    max:{", max(array_temp["min"]), "};" )
+print("Max. темп.: ", "min:{", min(array_temp["max"]), "};    max:{", max(array_temp["max"]), "};" )
+print("Мин. темп. сред.: ", "%.2f" % mean(array_temp["min"]))
+print("Max. темп. сред.: ", "%.2f" % mean(array_temp["max"]))
+print("МНК", "%.2f" % mnk(array_temp["min"], array_temp["max"]))
+print("Коэффициент парной корреляции", "%.2f" % corrcoef(array_temp["min"], array_temp["max"]))
+----
+
+
++*Out[43]:*+
+----
+Мин. темп.:  min:{ -16.6 };    max:{ 22.1 };
+Max. темп.:  min:{ -10.7 };    max:{ 37.0 };
+Мин. темп. сред.:  6.08
+Max. темп. сред.:  14.38
+МНК 7.17
+Коэффициент парной корреляции 0.91
+----
